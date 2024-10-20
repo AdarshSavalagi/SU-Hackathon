@@ -8,6 +8,7 @@ import FacultyPage from "../pages/Dashboard/Faculty/FacultyPage.jsx";
 import StudentPage from "../pages/Dashboard/Student/StudentPage.jsx";
 import LogoutPage from "../pages/LogoutPage/LogoutPage.jsx";
 import { Toaster } from "react-hot-toast";
+import ConductExam from "../pages/Dashboard/Faculty/ConductExam.jsx";
 
 export default function RouteHandler() {
   return (
@@ -34,6 +35,7 @@ export default function RouteHandler() {
 
 
           <Route path="/logout" element={<LogoutPage />} />
+          <Route path="/temp" element={<ConductExam />} />
         </Routes>
       </Router>
     </>
