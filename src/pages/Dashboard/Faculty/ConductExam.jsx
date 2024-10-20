@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import CreateQuestion from '../../../components/CreateQuestion';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { BACKEND_URL } from '../../../constants/Constant';
 
 function ConductExam() {
   const [questions, setQuestions] = useState([]);
@@ -51,10 +54,20 @@ function ConductExam() {
     setEditedQuestion(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit =async () => {
     const questionsJSON = JSON.stringify(questions, null, 2);
-    console.log(questionsJSON); // Log JSON to console or handle it as needed
-    // You can also handle the JSON (e.g., send it to an API)
+    console.log(questionsJSON); 
+    try {
+      const response = await axios.post(BACKEND_URL + '/api/v1/test', questionsJSON, {
+        headers: {
+          Authorization: `${localStorage.getItem('_token')}`
+        }
+      });
+      toast.success('Questions submitted successfully');
+
+    } catch (error) {
+      toast.error('Failed to submit questions: '+error.message);
+    }
   };
 
   return (
