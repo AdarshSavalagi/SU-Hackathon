@@ -18,14 +18,14 @@ function LeftDash({ onclickHandler, selected }) {
             onClick={() => { onclickHandler(1); }}
             className={`w-full ${selected === 1 ? 'bg-green-700' : 'bg-blue-500'} hover:bg-green-700 text-white font-bold py-2 px-4 rounded`}
           >
-            Faculty Detail
+           Attended Exam
           </button>
 
           <button
             onClick={() => { onclickHandler(2); }}
             className={`w-full ${selected === 2 ? 'bg-green-700' : 'bg-blue-500'} hover:bg-green-700 text-white font-bold py-2 px-4 rounded`}
           >
-            Student Detail
+            Pending exam
           </button>
         </div>
       </div>

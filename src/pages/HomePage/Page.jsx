@@ -12,16 +12,16 @@ export const HomePage = () => {
 
             {/* Button Section */}
             <div className="flex flex-col justify-center items-start w-1/2 p-8">
-                <h1 className="text-3xl font-bold text-white mb-4">This is Home Page</h1>
+                <h1 className="text-3xl font-bold text-white mb-4"></h1>
                 <div className='flex flex-row gap-8'>
                 <button className="bg-white text-purple-700 font-bold py-2 px-4 rounded mb-2">
-                    Button 1
+                   Admin Login
                 </button>
                 <button className="bg-white text-purple-700 font-bold py-2 px-4 rounded mb-2">
-                    Button 2
+                     Faculty Login
                 </button>
                 <button className="bg-white text-purple-700 font-bold py-2 px-4 rounded mb-2">
-                    Button 3
+                    Student Login
                 </button>
                 </div>
             </div>
