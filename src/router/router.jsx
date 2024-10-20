@@ -3,6 +3,9 @@ import { HomePage } from "../pages/HomePage/Page.jsx";
 import NavBar from "../components/NavBar.jsx";
 import LoginCard from "../components/LoginCard.jsx";
 import Question from "../pages/Question.jsx";
+import SuperAdminPage from "../pages/SuperAdminPage.jsx";
+import FacultyPage from "../pages/FacultyPage.jsx";
+import StudentPage from "../pages/StudentPage.jsx";
 
 export default function RouteHandler() {
   return (
@@ -18,13 +21,10 @@ export default function RouteHandler() {
           <Route path="/slogin" element={<LoginCard title="Admin Login" />} />
 
          
-          <Route
-            path="/question"
-            element={
-              <Question 
-              />
-            }
-          />
+          <Route path="/question" element={ <Question  /> } />
+          <Route path="/superadmin" element={ <SuperAdminPage  /> } />
+          <Route path="/faculty" element={ <FacultyPage  /> } />
+          <Route path="/student" element={ <StudentPage  /> } />
         </Routes>
       </Router>
     </>
