@@ -25,7 +25,7 @@ export default function RouteHandler() {
           <Route path="/admin-login" element={<LoginCard title="Admin Login" type='3' />} />
 
 
-          <Route path="/exam" element={<Question />} />
+          <Route path="/exam/:id" element={<Question />} />
 
 
           {/* dashboards */}
