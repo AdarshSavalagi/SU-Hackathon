@@ -55,10 +55,8 @@ function ConductExam() {
   };
 
   const handleSubmit =async () => {
-    const questionsJSON = JSON.stringify(questions, null, 2);
-    console.log(questionsJSON); 
     try {
-      const response = await axios.post(BACKEND_URL + '/api/v1/test', questionsJSON, {
+      const response = await axios.post(BACKEND_URL + '/api/v1/test', questions, {
         headers: {
           Authorization: `${localStorage.getItem('_token')}`
         }

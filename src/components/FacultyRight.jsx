@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BACKEND_URL } from '../constants/Constant';
 
 function FacultyRight({ facultyList, departmentCount }) {
   // Sample data for exams
-  const examData = [
-    { title: 'Math Exam', questionCount: 10, minMarks: 0, maxMarks: 100 },
-    { title: 'Science Exam', questionCount: 12, minMarks: 0, maxMarks: 120 },
-    { title: 'History Exam', questionCount: 8, minMarks: 0, maxMarks: 80 },
-  ];
+ 
+
+useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const facultyData = await axios.get(BACKEND_URL + '/api/v1/test', {
+          headers: {
+            Authorization: `${localStorage.getItem('_token')}`
+          }
+        });
+        setExamData(facultyData.data.data);
+        console.log(facultyData.data.data);
+      } catch (error) {
+        console.error('Failed to fetch faculty data: ' + error.message);  
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  const [examData, setExamData] = useState([]);
 
   const [modalData, setModalData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,11 +60,11 @@ function FacultyRight({ facultyList, departmentCount }) {
           <div key={index} className="bg-white p-6 rounded-lg shadow-md w-full flex justify-between items-center">
             <div className="flex flex-col">
               <h3 className="text-gray-800 text-xl mb-2">{exam.title}</h3>
-              <p className="text-gray-600">Number of Questions: {exam.questionCount}</p>
+              <p className="text-gray-600">Number of Questions: {exam.questions.length}</p>
             </div>
             <div className="flex flex-col items-end">
-              <p className="text-gray-600">Min Marks: {exam.minMarks}</p>
-              <p className="text-gray-600">Max Marks: {exam.maxMarks}</p>
+              <p className="text-gray-600">Min Marks: {exam.minMarks??0}</p>
+              <p className="text-gray-600">Max Marks: {exam.maxMarks??0}</p>
               <button
                 className="mt-2 bg-blue-500 text-white py-1 px-3 rounded"
                 onClick={() => handleModalOpen(exam)}
