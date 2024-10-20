@@ -6,6 +6,7 @@ import Question from "../pages/Question.jsx";
 import SuperAdminPage from "../pages/SuperAdminPage.jsx";
 import FacultyPage from "../pages/FacultyPage.jsx";
 import StudentPage from "../pages/StudentPage.jsx";
+import LogoutPage from "../components/LogoutPage.jsx";
 
 export default function RouteHandler() {
   return (
@@ -21,10 +22,11 @@ export default function RouteHandler() {
           <Route path="/slogin" element={<LoginCard title="Admin Login" />} />
 
          
-          <Route path="/question" element={ <Question  /> } />
+          <Route path="/question" element={ <Question /> } />
           <Route path="/superadmin" element={ <SuperAdminPage  /> } />
           <Route path="/faculty" element={ <FacultyPage  /> } />
           <Route path="/student" element={ <StudentPage  /> } />
+          <Route path="/logout" element={<LogoutPage/>}/>
         </Routes>
       </Router>
     </>
