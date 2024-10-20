@@ -5,7 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import RightDash from '../../../components/RightDash';
 import LeftDash from '../../../components/LeftDash';
 import StudentRight from '../../../components/StudentRight';
-import FacultyRight from '../../../components/FacultyRight';
+import FacultyRight from '../../../components/Admin/FacultyRight';
 import axios from 'axios';
 import { BACKEND_URL } from '../../../constants/Constant';
 

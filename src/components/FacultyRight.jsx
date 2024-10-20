@@ -14,7 +14,7 @@ function FacultyRight({ facultyList, departmentCount }) {
   const handleModalOpen = (exam) => {
     setModalData(exam);
     setIsModalOpen(true);
-  };
+  };  
 
   const handleModalClose = () => {
     setIsModalOpen(false);

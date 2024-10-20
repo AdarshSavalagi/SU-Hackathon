@@ -4,7 +4,7 @@ import animationData from '../../assets/Image.json'; // Ensure the path to your 
 import toast from 'react-hot-toast';
 import { BACKEND_URL } from '../../constants/Constant';
 import axios from 'axios';
-
+import {useNavigate} from 'react-router-dom';
 
 
 function LoginCard({ title,type }) {
@@ -14,6 +14,7 @@ function LoginCard({ title,type }) {
     password:''
   });
 
+  const navigate = useNavigate();
 
   const login = async () => {
      try {
@@ -27,6 +28,7 @@ function LoginCard({ title,type }) {
           localStorage.setItem('_token',response.data.data.token);
           localStorage.setItem('_type',type);
         //  navigate to thier dash board
+        navigate(localStorage.getItem('_type') === '1'?'/student':localStorage.getItem('_type') === '2'?'/faculty':'/superadmin');
         }else{
           toast.error('Login Failed: '+response.data.message);
         }
