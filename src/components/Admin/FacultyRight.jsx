@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';  // Assuming you are using react-toastify for notifications
+import { toast } from 'react-hot-toast';  
 
 function FacultyRight({ facultyList, departmentCount }) {
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);

@@ -1,11 +1,7 @@
 import React from 'react'
-import StudentRight from '../../../components/StudentRight'
-import LeftDash from '../../../components/LeftDash';
+import LeftDash from '../../../components/Student/LeftDash';
 import { useState } from 'react';
-import RightDash from '../../../components/RightDash';
-
-
-import FacultyRight from '../../../components/FacultyRight';
+import RightDash from '../../../components/Student/RightDash';
 
 function StudentPage() {
     
@@ -15,7 +11,8 @@ const [selected, setSelected] = useState(0);
       <LeftDash onclickHandler={setSelected} selected={selected}/>
       <div className='w-5/6'>
       {selected==0?<RightDash/>:
-      selected==1?<FacultyRight/>:<StudentRight/>}
+      selected==1?
+      <RightDash />:<></>}
       </div>
     </div>
   )
