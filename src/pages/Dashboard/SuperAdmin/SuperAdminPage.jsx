@@ -68,6 +68,14 @@ useEffect(() => {
   fecthData();
 }, []);
 
+
+useEffect(() => {
+  if (localStorage.getItem('_token') == null) {
+    window.location.href = '/student-login';    
+  }
+}, []);
+
+
 const [facultyData, setFacultyData] = useState([]);
 const [studentData, setStudentData] = useState([]);
 const [dataset, setDataset] = useState(data);
