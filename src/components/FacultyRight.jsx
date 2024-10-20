@@ -2,11 +2,11 @@ import React from 'react';
 
 function FacultyRight() {
   return (
-    <div className="w-4/5 p-8 bg-gray-100">
+    <div className="w-4/5 p-8 bg-gray-100 overflow-auto">
       <div className="grid grid-cols-4 gap-4 mb-4">
         {/* Stats Cards */}
         <div className="bg-gradient-to-r from-purple-400 to-pink-600 p-4 rounded-lg shadow-md">
-          <h2 className="text-white text-6xl">983</h2>
+          <h2 className="text-white text-6xl">983()fac</h2>
           <p className="text-white text-sm">Number of Faculties</p>
         </div>
 

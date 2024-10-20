@@ -11,7 +11,7 @@ function StudentPage() {
     
 const [selected, setSelected] = useState(0);
   return (
-    <div >
+    <div className='flex flex-row' >
       {/* Left Side - Dashboard */}
       <LeftDash onclickHandler={setSelected} selected={selected}/>
       
@@ -22,7 +22,7 @@ const [selected, setSelected] = useState(0);
       <div className='w-5/6'>
 
       {selected==0?<RightDash/>:
-      selected==1?<StudentRight/>:<FacultyRight/>}
+      selected==1?<FacultyRight/>:<StudentRight/>}
       </div>
       
     </div>

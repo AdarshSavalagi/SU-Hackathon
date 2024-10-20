@@ -31,7 +31,7 @@ const [selected, setSelected] = useState(0);
   };
 
   return (
-    <div className='flex'>
+    <div className=' flex-row'>
       {/* Left Side - Dashboard */}
 
       <div className='w-1/6'>
