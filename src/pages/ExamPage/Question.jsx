@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import QuestionButtonPanel from '../../components/QuestionButtonPanel';
 import QuestionCard from '../../components/QuestionCard';
 import LogoutPage from '../LogoutPage/LogoutPage';
+import Camera from '../../components/Camera'; 
+
 
 function Question() {
   const [selectedQuestion, setSelectedQuestion] = useState(0);
@@ -113,30 +115,52 @@ function Question() {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
+      const keysToPrevent = [
+        'Alt',
+        'Control',
+        'Meta', // Windows key or Command key
+        'Tab',
+        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
+        'Escape' // Optional: Prevent Escape to avoid exiting fullscreen
+      ];
+  
+      
+      if (keysToPrevent.includes(event.key)) {
+        event.preventDefault();
+      }
+  
       if (isFullscreen && event.altKey) {
         event.preventDefault();
-        setIsAltPressed(true);
+        // setIsAltPressed(true);
       }
+      if(event.key === 'Meta')
+      {
+        exitFullscreen();
+      }
+      
       if (event.key === 'Escape') {
         exitFullscreen();
       }
     };
-
-    const handleKeyUp = (event) => {
-      if (event.key === 'Alt') {
-        setIsAltPressed(false);
-        alert("Full Screen mode is disabling");
-      }
-    };
-
+  
+    // const handleFocus = () => {
+    //   alert("You have switched away from the exam. Please stay focused on this page.");
+    // };
+  
     window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-
+    // window.addEventListener('blur', handleFocus); // Alert when the window loses focus
+    window.addEventListener('focus', () => {
+      // Optionally notify the user when they return to the window
+      console.log("Welcome back to the exam!");
+    });
+  
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      // window.removeEventListener('blur', handleFocus);
     };
   }, [isFullscreen]);
+  
+  
 
   const toggleFullscreen = () => {
     if (isFullscreen) {
@@ -236,24 +260,33 @@ function Question() {
               options={questions[selectedQuestion].options}
             />
             {/* Add a button to call handleLogout */}
-           
+            
           </div>
-
+          <div className="mt-4 items-start">
+            <Camera isOverlayActive={showWarningModal} />
+          </div>
           {/* Overlay Modal */}
           {showWarningModal && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
-              <div className="bg-white p-6 rounded shadow-lg text-center">
-                <h2 className="text-lg font-bold">Warning!</h2>
-                <p>Your exam will close if you do not keep it in fullscreen!</p>
-                <p>Time left: {timer} seconds</p>
-                <button 
-                  onClick={() => setShowWarningModal(false)} 
-                  className="mt-4 bg-blue-600 text-white rounded px-4 py-2">
-                  Dismiss
-                </button>
-              </div>
-            </div>
-          )}
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
+    <div className="bg-white p-6 rounded shadow-lg text-center">
+      <h2 className="text-lg font-bold">Warning!</h2>
+      <p>Your exam will close if you do not keep it in fullscreen!</p>
+      <p>Time left: {timer} seconds</p>
+      <button
+        onClick={() => {
+          setShowWarningModal(false);
+          toggleFullscreen(); // Re-enter fullscreen when the button is clicked
+        }}
+        className="mt-4 bg-blue-600 text-white rounded px-4 py-2"
+      >
+        Go Fullscreen
+      </button>
+    </div>
+  </div>
+)}
+
+       
+
         </>
       )}
     </div>
