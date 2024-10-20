@@ -29,7 +29,6 @@ function RightDash({ dataset }) {
 
                 <div className="bg-white p-6 rounded-lg shadow-md">
                     <h3 className="text-gray-800 text-xl mb-4">Student Stats</h3>
-                    {/* Line Chart */}
                     <Line data={data} />
                 </div>
             </div>

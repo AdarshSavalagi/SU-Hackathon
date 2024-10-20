@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FacultyRight from '../../../components/FacultyRight'
 import LeftDash from '../../../components/Faculty/LeftDash'
 import { useState } from 'react';
 import RightDash from '../../../components/Faculty/RightDash';
 import ConductExam from './ConductExam';
+import { useNavigate } from 'react-router-dom';
 
 function FacultyPage() {
   const [selected, setSelected] = useState(0);
+
+  const navigate = useNavigate();
+useEffect(() => {
+  if (localStorage.getItem('_token') === null) {
+    navigate('/student-login');
+  }
+
+}, []);
 
   const data = {
     noOfStudents: 100,
