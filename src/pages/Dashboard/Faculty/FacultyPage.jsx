@@ -1,6 +1,6 @@
 import React from 'react'
-import FacultyRight from '../components/FacultyRight'
-import LeftDash from '../components/LeftDash'
+import FacultyRight from '../../../components/FacultyRight'
+import LeftDash from '../../../components/LeftDash'
 import { useState } from 'react';
 
 function FacultyPage() {

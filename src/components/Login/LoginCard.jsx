@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'lottie-react'; // Correct Lottie import
-import animationData from './Image.json'; // Ensure the path to your JSON file is correct
+import animationData from '../../assets/Image.json'; // Ensure the path to your JSON file is correct
 
 function LoginCard({ title }) {
   return (

@@ -1,11 +1,11 @@
 import React from 'react'
-import StudentRight from '../components/StudentRight'
-import LeftDash from '../components/LeftDash';
+import StudentRight from '../../../components/StudentRight'
+import LeftDash from '../../../components/LeftDash';
 import { useState } from 'react';
-import RightDash from '../components/RightDash';
+import RightDash from '../../../components/RightDash';
 
 
-import FacultyRight from '../components/FacultyRight';
+import FacultyRight from '../../../components/FacultyRight';
 
 function StudentPage() {
     

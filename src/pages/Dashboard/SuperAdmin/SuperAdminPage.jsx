@@ -2,10 +2,10 @@ import React from 'react';
 
 import { useState } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import RightDash from '../components/RightDash';
-import LeftDash from '../components/LeftDash';
-import StudentRight from '../components/StudentRight';
-import FacultyRight from '../components/FacultyRight';
+import RightDash from '../../../components/RightDash';
+import LeftDash from '../../../components/LeftDash';
+import StudentRight from '../../../components/StudentRight';
+import FacultyRight from '../../../components/FacultyRight';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -41,8 +41,9 @@ const [selected, setSelected] = useState(0);
       {/* Right Side - Main Content */}
       <div className='w-5/6'>
 
+      
       {selected==0?<RightDash/>:
-      selected==1?<StudentRight/>:<FacultyRight/>}
+      selected==1?<FacultyRight/>:<StudentRight/>}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 
 function QuestionButtonPanel({changeHandler,selected,length}) {
   return (
-    <div className="flex flex-row  w-1/5 bg-gray-200 p-4">
+    <div className="flex flex-col  w-1/5 bg-gray-200 p-4">
       <h2 className="text-lg font-bold mb-4">Self Assessment of  the Question</h2>
 
       <div className="grid grid-cols-3 gap-2">

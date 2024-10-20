@@ -1,6 +1,6 @@
 
 import Lottie  from 'lottie-react'; // Import Lottie component
-import logoutAnimation from '../components/Image.json'; // Replace with your Lottie animation file
+import logoutAnimation from '../../assets/Image.json'; // Replace with your Lottie animation file
 
 function LogoutPage() {
   return (
