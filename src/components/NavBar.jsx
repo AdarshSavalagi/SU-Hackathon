@@ -1,6 +1,10 @@
 import React from 'react';
 
 function NavBar() {
+
+ const logout = () => {
+    localStorage.clear();
+  }
   return (
     <nav className="bg-blue-600 p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -11,9 +15,10 @@ function NavBar() {
         {/* Logout Button */}
         <button
           type="button"
+          onClick={logout}
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
         >
-          Logout
+          Logoutp
         </button>
       </div>
     </nav>

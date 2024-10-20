@@ -1,8 +1,42 @@
-import React from 'react';
+import {useState} from 'react';
 import Lottie from 'lottie-react'; // Correct Lottie import
 import animationData from '../../assets/Image.json'; // Ensure the path to your JSON file is correct
+import toast from 'react-hot-toast';
+import { BACKEND_URL } from '../../constants/Constant';
+import axios from 'axios';
 
-function LoginCard({ title }) {
+
+
+function LoginCard({ title,type }) {
+
+  const [formData,setFormData]=useState({
+    username:'',
+    password:''
+  });
+
+
+  const login = async () => {
+     try {
+      let path = type === '1' ?'/api/v1/student/login':type === '2'?'/api/v1/teacher/login':'/api/v1/admin/login';
+        const url = BACKEND_URL + path;
+
+        const response = await axios.post(url,formData);
+        console.log(response.data);
+        if(response.data.success === true){
+          toast.success('Login Success');
+          localStorage.setItem('_token',response.data.data.token);
+          localStorage.setItem('_type',type);
+        //  navigate to thier dash board
+        }else{
+          toast.error('Login Failed: '+response.data.message);
+        }
+     } catch (error) {
+        toast.error('Login Failed: '+error.message);
+     }
+  }
+  
+
+
   return (
     <section className="h-screen flex items-center justify-center">
       <div className="container mx-auto px-4">
@@ -19,13 +53,15 @@ function LoginCard({ title }) {
               {/* Email input */}
               <div className="mb-4">
                 <input
-                  type="email"
+                  type="text"
                   id="email"
+                  value={formData.username}
+                  onChange={(e)=>setFormData({...formData,username:e.target.value})}
                   className="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
-                  placeholder="Enter a valid email address"
+                  placeholder="Enter a valid Username"
                 />
                 <label className="block text-gray-700 mt-2" htmlFor="email">
-                  Email address
+                  Username 
                 </label>
               </div>
 
@@ -34,6 +70,8 @@ function LoginCard({ title }) {
                 <input
                   type="password"
                   id="password"
+                  value={formData.password}
+                  onChange={(e)=>setFormData({...formData,password:e.target.value})}
                   className="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
                   placeholder="Enter password"
                 />
@@ -42,34 +80,20 @@ function LoginCard({ title }) {
                 </label>
               </div>
 
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="remember"
-                    className="form-checkbox h-5 w-5 text-blue-600"
-                  />
-                  <label htmlFor="remember" className="ml-2 text-gray-700">
-                    Remember me
-                  </label>
-                </div>
-                <a href="#!" className="text-blue-600 hover:underline">
-                  Forgot password?
-                </a>
-              </div>
-
+             
               <div className="text-center lg:text-left mt-4 pt-2">
                 <button
                   type="button"
+                  onClick={login}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg"
                 >
                   Login
                 </button>
                 <p className="text-sm font-medium mt-3">
                   Don't have an account?{' '}
-                  <a href="#!" className="text-red-600 hover:underline">
+                  <button onClick={login} className="text-red-600 hover:underline">
                     Register
-                  </a>
+                  </button>
                 </p>
               </div>
             </form>

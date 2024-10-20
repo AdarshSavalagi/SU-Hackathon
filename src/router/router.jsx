@@ -7,19 +7,21 @@ import SuperAdminPage from "../pages/Dashboard/SuperAdmin/SuperAdminPage.jsx";
 import FacultyPage from "../pages/Dashboard/Faculty/FacultyPage.jsx";
 import StudentPage from "../pages/Dashboard/Student/StudentPage.jsx";
 import LogoutPage from "../pages/LogoutPage/LogoutPage.jsx";
+import { Toaster } from "react-hot-toast";
 
 export default function RouteHandler() {
   return (
     <>
       <NavBar />
+    <Toaster/>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
 
           {/* LoginCard */}
-          <Route path="/login" element={<LoginCard title="Students Login" type='1' />} />
-          <Route path="/flogin" element={<LoginCard title="Faculty Login" type='2' />} />
-          <Route path="/slogin" element={<LoginCard title="Admin Login" type='3' />} />
+          <Route path="/student-login" element={<LoginCard title="Students Login" type='1' />} />
+          <Route path="/faculty-login" element={<LoginCard title="Faculty Login" type='2' />} />
+          <Route path="/admin-login" element={<LoginCard title="Admin Login" type='3' />} />
 
 
           <Route path="/exam" element={<Question />} />
