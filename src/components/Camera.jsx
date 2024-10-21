@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
+import * as speechCommands from '@tensorflow-models/speech-commands';
 
 const Camera = ({ isOverlayActive }) => {
     const videoRef = useRef(null);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [lastAlertTime, setLastAlertTime] = useState(0);
+    const [audioModel, setAudioModel] = useState(null); // State for audio model
+
+    const suspiciousClasses = ['Speech', 'Conversation']; // Suspicious classes
+    const noiseThreshold = 0.04; // Filter out background noise
 
     useEffect(() => {
         const startCamera = async () => {
@@ -20,12 +25,29 @@ const Camera = ({ isOverlayActive }) => {
             }
         };
 
+        // Load the audio model for speech recognition
+        const loadAudioModel = async () => {
+            try {
+                const recognizer = await speechCommands.create('BROWSER_FFT');
+                await recognizer.ensureModelLoaded();
+                setAudioModel(recognizer);
+                console.log("Audio model loaded successfully");
+
+                // Start listening for suspicious audio after the model is loaded
+                startListening(recognizer);
+            } catch (error) {
+                console.error("Error loading audio model:", error);
+            }
+        };
+
         startCamera();
+        loadAudioModel(); // Load audio model
 
         // Detect fullscreen mode changes
         const handleFullscreenChange = () => {
             const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-            setIsFullscreen(!!fullscreenElement);
+            const isFullscreenActive = !!fullscreenElement;
+            setIsFullscreen(isFullscreenActive);
         };
 
         document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -41,9 +63,37 @@ const Camera = ({ isOverlayActive }) => {
         };
     }, []);
 
+    // Function to start listening for suspicious audio
+    const startListening = (recognizer) => {
+        recognizer.listen(result => {
+            const scores = result.scores;
+            const labels = recognizer.wordLabels();
+            console.log("Scores:", scores);
+            console.log("Labels:", labels);
+
+            const highestScoreIndex = scores.indexOf(Math.max(...scores));
+            const detectedLabel = labels[highestScoreIndex];
+            const confidence = scores[highestScoreIndex];
+
+            console.log(`Detected: ${detectedLabel}, Confidence: ${confidence}`);
+
+            // Check if the detected audio matches suspicious classes
+            if (confidence > noiseThreshold ) {
+                console.log('Suspicious audio detected:', detectedLabel); // Log the detected label
+                alert('Suspicious audio detected!'); // Trigger alert on suspicious audio
+            } else {
+                console.log('No suspicious audio detected.'); // Log if no suspicious audio is detected
+            }
+        }, {
+            probabilityThreshold: 0.5, // Adjusted threshold for better detection
+            overlapFactor: 0.75 // Adjusted overlap for better performance
+        });
+        console.log("Listening started for audio");
+    };
+
     const detectFaces = async () => {
         const model = await cocoSsd.load();
-        console.log("Model loaded successfully");
+        console.log("Face detection model loaded successfully");
 
         const detect = async () => {
             if (videoRef.current && videoRef.current.videoWidth > 0 && videoRef.current.videoHeight > 0) {
