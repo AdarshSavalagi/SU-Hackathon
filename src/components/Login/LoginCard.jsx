@@ -1,43 +1,39 @@
-import {useState} from 'react';
-import Lottie from 'lottie-react'; // Correct Lottie import
+import { useState } from 'react';
+import Lottie from 'lottie-react';
 import animationData from '../../assets/Image.json'; // Ensure the path to your JSON file is correct
 import toast from 'react-hot-toast';
 import { BACKEND_URL } from '../../constants/Constant';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-
-function LoginCard({ title,type }) {
-
-  const [formData,setFormData]=useState({
-    username:'',
-    password:''
+function LoginCard({ title, type }) {
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
   });
-
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false); // State to manage password focus
   const navigate = useNavigate();
 
   const login = async () => {
-     try {
-      let path = type === '1' ?'/api/v1/student/login':type === '2'?'/api/v1/teacher/login':'/api/v1/admin/login';
-        const url = BACKEND_URL + path;
+    try {
+      let path = type === '1' ? '/api/v1/student/login' : type === '2' ? '/api/v1/teacher/login' : '/api/v1/admin/login';
+      const url = BACKEND_URL + path;
 
-        const response = await axios.post(url,formData);
-        console.log(response.data);
-        if(response.data.success === true){
-          toast.success('Login Success');
-          localStorage.setItem('_token',response.data.data.token);
-          localStorage.setItem('_type',type);
-        //  navigate to thier dash board
-        navigate(localStorage.getItem('_type') === '1'?'/student':localStorage.getItem('_type') === '2'?'/faculty':'/superadmin');
-        }else{
-          toast.error('Login Failed: '+response.data.message);
-        }
-     } catch (error) {
-        toast.error('Login Failed: '+error.message);
-     }
+      const response = await axios.post(url, formData);
+      console.log(response.data);
+      if (response.data.success === true) {
+        toast.success('Login Success');
+        localStorage.setItem('_token', response.data.data.token);
+        localStorage.setItem('_type', type);
+        // Navigate to their dashboard
+        navigate(localStorage.getItem('_type') === '1' ? '/student' : localStorage.getItem('_type') === '2' ? '/faculty' : '/superadmin');
+      } else {
+        toast.error('Login Failed: ' + response.data.message);
+      }
+    } catch (error) {
+      toast.error('Login Failed: ' + error.message);
+    }
   }
-  
-
 
   return (
     <section className="h-screen flex items-center justify-center">
@@ -49,31 +45,38 @@ function LoginCard({ title,type }) {
           </div>
           <div className="w-full lg:w-1/3">
             <h2 className="text-2xl font-bold text-center mb-6">{title}</h2>
-            <form>
-              <div className="flex items-center justify-center mb-4"></div>
 
-              {/* Email input */}
+            {/* Doll Animation / Image */}
+            <div className="flex justify-center mb-4">
+              <div className="relative">
+                {/* Doll Image */}
+                
+              </div>
+            </div>
+
+            <form>
               <div className="mb-4">
                 <input
                   type="text"
                   id="email"
                   value={formData.username}
-                  onChange={(e)=>setFormData({...formData,username:e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                   className="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
                   placeholder="Enter a valid Username"
                 />
                 <label className="block text-gray-700 mt-2" htmlFor="email">
-                  Username 
+                  Username
                 </label>
               </div>
 
-              {/* Password input */}
               <div className="mb-4">
                 <input
                   type="password"
                   id="password"
                   value={formData.password}
-                  onChange={(e)=>setFormData({...formData,password:e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onFocus={() => setIsPasswordFocused(true)} // Set focus state
+                  onBlur={() => setIsPasswordFocused(false)} // Reset focus state
                   className="form-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
                   placeholder="Enter password"
                 />
@@ -82,7 +85,6 @@ function LoginCard({ title,type }) {
                 </label>
               </div>
 
-             
               <div className="text-center lg:text-left mt-4 pt-2">
                 <button
                   type="button"

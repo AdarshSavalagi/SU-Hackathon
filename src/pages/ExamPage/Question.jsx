@@ -2,8 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import QuestionButtonPanel from '../../components/QuestionButtonPanel';
 import QuestionCard from '../../components/QuestionCard';
 import LogoutPage from '../LogoutPage/LogoutPage';
-import Camera from '../../components/Camera'; 
-
+import Camera from '../../components/Camera';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { BACKEND_URL } from '../../constants/Constant';
 
 function Question() {
   const [selectedQuestion, setSelectedQuestion] = useState(0);
@@ -13,8 +15,29 @@ function Question() {
   const [showLogoutPage, setShowLogoutPage] = useState(false);
   const [timer, setTimer] = useState(10);
   const questionRef = useRef();
+  const { id } = useParams();
 
-  const questions = [
+
+  const [questions, setQuestions] = useState([]);
+  useEffect(() => {
+    document.title = 'Exam';
+    if (!localStorage.getItem('_token') || localStorage.getItem('_type') !== '1') {
+      window.location.href = '/student-login';
+    }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(BACKEND_URL + '/api/v1/test/' + id);
+        setQuestions(response.data.data.questions);
+        console.log('response', response.data.data.questions);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+
+  }, []);
+
+  const questions1 = [
     {
       question: 'What is your favorite color?',
       type: '1',
@@ -123,44 +146,43 @@ function Question() {
         'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
         'Escape' // Optional: Prevent Escape to avoid exiting fullscreen
       ];
-  
-      
+
+
       if (keysToPrevent.includes(event.key)) {
         event.preventDefault();
       }
-  
+
       if (isFullscreen && event.altKey) {
         event.preventDefault();
         // setIsAltPressed(true);
       }
-      if(event.key === 'Meta')
-      {
+      if (event.key === 'Meta') {
         exitFullscreen();
       }
-      
+
       if (event.key === 'Escape') {
         exitFullscreen();
       }
     };
-  
+
     // const handleFocus = () => {
     //   alert("You have switched away from the exam. Please stay focused on this page.");
     // };
-  
+
     window.addEventListener('keydown', handleKeyDown);
     // window.addEventListener('blur', handleFocus); // Alert when the window loses focus
     window.addEventListener('focus', () => {
       // Optionally notify the user when they return to the window
       console.log("Welcome back to the exam!");
     });
-  
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       // window.removeEventListener('blur', handleFocus);
     };
   }, [isFullscreen]);
-  
-  
+
+
 
   const toggleFullscreen = () => {
     if (isFullscreen) {
@@ -254,38 +276,38 @@ function Question() {
               </div>
             )}
             <QuestionCard
-              questionTitle={questions[selectedQuestion].question}
+              questionTitle={questions[selectedQuestion]?.question}
               questionText="Which among "
-              type={questions[selectedQuestion].type}
-              options={questions[selectedQuestion].options}
+              type={questions[selectedQuestion]?.type}
+              options={questions[selectedQuestion]?.options}
             />
             {/* Add a button to call handleLogout */}
-            
+
           </div>
           <div className="mt-4 items-start">
             <Camera isOverlayActive={showWarningModal} />
           </div>
           {/* Overlay Modal */}
           {showWarningModal && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
-    <div className="bg-white p-6 rounded shadow-lg text-center">
-      <h2 className="text-lg font-bold">Warning!</h2>
-      <p>Your exam will close if you do not keep it in fullscreen!</p>
-      <p>Time left: {timer} seconds</p>
-      <button
-        onClick={() => {
-          setShowWarningModal(false);
-          toggleFullscreen(); // Re-enter fullscreen when the button is clicked
-        }}
-        className="mt-4 bg-blue-600 text-white rounded px-4 py-2"
-      >
-        Go Fullscreen
-      </button>
-    </div>
-  </div>
-)}
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
+              <div className="bg-white p-6 rounded shadow-lg text-center">
+                <h2 className="text-lg font-bold">Warning!</h2>
+                <p>Your exam will close if you do not keep it in fullscreen!</p>
+                <p>Time left: {timer} seconds</p>
+                <button
+                  onClick={() => {
+                    setShowWarningModal(false);
+                    toggleFullscreen(); // Re-enter fullscreen when the button is clicked
+                  }}
+                  className="mt-4 bg-blue-600 text-white rounded px-4 py-2"
+                >
+                  Go Fullscreen
+                </button>
+              </div>
+            </div>
+          )}
 
-       
+
 
         </>
       )}
