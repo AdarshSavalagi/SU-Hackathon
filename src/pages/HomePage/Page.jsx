@@ -66,7 +66,7 @@ export const HomePage = () => {
                         <motion.button
                             whileHover={{ scale: 1.1, backgroundColor: '#7e22ce', color: '#fff' }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={navigate('/admin-login')}
+                            onClick={()=>navigate('/admin-login')}
                             className="bg-white text-purple-700 font-bold py-3 px-4 rounded mb-2"
                         >
                             Admin Login
@@ -74,7 +74,7 @@ export const HomePage = () => {
                         <motion.button
                             whileHover={{ scale: 1.1, backgroundColor: '#7e22ce', color: '#fff' }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={navigate('/faculty-login')}
+                            onClick={()=>navigate('/faculty-login')}
                             className="bg-white text-purple-700 font-bold py-2 px-4 rounded mb-2"
                         >
                             Faculty Login
@@ -82,7 +82,7 @@ export const HomePage = () => {
                         <motion.button
                             whileHover={{ scale: 1.1, backgroundColor: '#7e22ce', color: '#fff' }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={navigate('/student-login')}
+                            onClick={()=>navigate('/student-login')}
                             className="bg-white text-purple-700 font-bold py-2 px-4 rounded mb-2"
                         >
                             Student Login

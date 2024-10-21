@@ -8,7 +8,7 @@ function ConductExam() {
   const [questions, setQuestions] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editedQuestion, setEditedQuestion] = useState(null);
-
+  const [title,setTitle]=useState('');
   const addQuestion = (newQuestion) => {
     setQuestions([...questions, newQuestion]);
   };
@@ -56,7 +56,7 @@ function ConductExam() {
 
   const handleSubmit =async () => {
     try {
-      const response = await axios.post(BACKEND_URL + '/api/v1/test', questions, {
+      const response = await axios.post(BACKEND_URL + '/api/v1/test', {title,questions}, {
         headers: {
           Authorization: `${localStorage.getItem('_token')}`
         }
@@ -72,7 +72,7 @@ function ConductExam() {
     <div className="flex">
       {/* Left Sidebar - Create Question Section */}
       <div className="w-1/3 p-4 bg-gray-100">
-        <CreateQuestion addQuestion={addQuestion} />
+        <CreateQuestion addQuestion={addQuestion} setTitle={setTitle} />
       </div>
 
       {/* Right Section - Questions Display */}

@@ -6,17 +6,19 @@ import Camera from '../../components/Camera';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { BACKEND_URL } from '../../constants/Constant';
+import toast from 'react-hot-toast';
+import {useNavigate} from 'react-router-dom';
 
 function Question() {
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const [isAltPressed, setIsAltPressed] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(true);
   const [showLogoutPage, setShowLogoutPage] = useState(false);
   const [timer, setTimer] = useState(10);
   const questionRef = useRef();
   const { id } = useParams();
-
+  const navigate = useNavigate();
 
   const [questions, setQuestions] = useState([]);
   useEffect(() => {
@@ -37,104 +39,7 @@ function Question() {
 
   }, []);
 
-  const questions1 = [
-    {
-      question: 'What is your favorite color?',
-      type: '1',
-      options: ['Red', 'Green', 'Blue', 'Yellow'],
-      answers: ''
-    },
-    {
-      question: 'Which programming languages do you know? (Select multiple)',
-      type: '2',
-      options: ['JavaScript', 'Python', 'Java', 'C#'],
-      answers: ''
-    },
-    {
-      question: 'Describe your ideal vacation.',
-      type: '3',
-      options: [], // No options for text answer
-      answers: ''
-    },
-    {
-      question: 'What type of music do you prefer?',
-      type: '1',
-      options: ['Rock', 'Pop', 'Jazz', 'Classical'],
-      answers: ''
-    },
-    {
-      question: 'Select your hobbies.',
-      type: '2',
-      options: ['Reading', 'Traveling', 'Cooking', 'Gardening'],
-      answers: ''
-    },
-    {
-      question: 'What is your dream job?',
-      type: '3',
-      options: [],
-      answers: ''
-    },
-    {
-      question: 'How do you prefer to communicate?',
-      type: '1',
-      options: ['Email', 'Phone', 'In-Person', 'Chat'],
-      answers: ''
-    },
-    {
-      question: 'What sports do you enjoy? (Select multiple)',
-      type: '2',
-      options: ['Soccer', 'Basketball', 'Tennis', 'Swimming'],
-      answers: ''
-    },
-    {
-      question: 'What is your favorite book?',
-      type: '3',
-      options: [],
-      answers: ''
-    },
-    {
-      question: 'Which food do you like the most?',
-      type: '1',
-      options: ['Italian', 'Mexican', 'Chinese', 'Indian'],
-      answers: ''
-    },
-    {
-      question: 'Choose your preferred social media platforms.',
-      type: '2',
-      options: ['Facebook', 'Twitter', 'Instagram', 'LinkedIn'],
-      answers: ''
-    },
-    {
-      question: 'What motivates you to work hard?',
-      type: '3',
-      options: [],
-      answers: ''
-    },
-    {
-      question: 'How do you stay organized?',
-      type: '1',
-      options: ['Digital Tools', 'Paper Planner', 'Lists', 'Notebooks'],
-      answers: ''
-    },
-    {
-      question: 'What do you enjoy doing in your free time? (Select multiple)',
-      type: '2',
-      options: ['Watching Movies', 'Playing Video Games', 'Exercising', 'Cooking'],
-      answers: ''
-    },
-    {
-      question: 'If you could learn any skill, what would it be?',
-      type: '3',
-      options: [],
-      answers: ''
-    },
-    {
-      question: 'What kind of movies do you prefer?',
-      type: '1',
-      options: ['Action', 'Comedy', 'Drama', 'Horror'],
-      answers: ''
-    }
-  ];
+ 
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -225,6 +130,20 @@ function Question() {
     }
   };
 
+  const handleSubmit = () => {
+    try {
+      // calculate marks
+      const response = axios.post(BACKEND_URL + '/api/v1/test/' , {
+      test:id,
+      score:100
+      });
+      toast.success('Submitted successfully');
+      navigate('/logout')
+    } catch (error) {
+      toast.error('Failed to submit' + error.message);
+    }
+  }
+
   // Countdown timer effect
   useEffect(() => {
     let countdownInterval;
@@ -276,13 +195,20 @@ function Question() {
               </div>
             )}
             <QuestionCard
-              questionTitle={questions[selectedQuestion]?.question}
-              questionText="Which among "
+              questionTitle={`question ${selectedQuestion + 1}`}
+              questionText={questions[selectedQuestion]?.question}
               type={questions[selectedQuestion]?.type}
               options={questions[selectedQuestion]?.options}
             />
             {/* Add a button to call handleLogout */}
-
+            <button
+                  onClick={() => {
+                    handleSubmit();
+                  }}
+                  className="mt-4 bg-blue-600 text-white rounded px-4 py-2"
+                >
+                  submit
+                </button>
           </div>
           <div className="mt-4 items-start">
             <Camera isOverlayActive={showWarningModal} />

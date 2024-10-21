@@ -1,8 +1,10 @@
 
 import Lottie  from 'lottie-react'; // Import Lottie component
 import logoutAnimation from '../../assets/Image.json'; // Replace with your Lottie animation file
+import { useNavigate } from 'react-router-dom';
 
 function LogoutPage() {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <Lottie animationData={logoutAnimation} loop={true} style={{ width: '300px', height: '300px' }} />
@@ -11,11 +13,10 @@ function LogoutPage() {
       <button 
         className="mt-6 bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-500 transition"
         onClick={() => {
-          // Logic to redirect to the login or home page
-          window.location.href = '/login'; // Adjust the path as needed
+        navigate('/student');
         }}
       >
-        Go to Login
+        Go to dashboard
       </button>
     </div>
   );

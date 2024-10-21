@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';  
+import { BACKEND_URL } from '../../constants/Constant';
 
 function FacultyRight({ facultyList, departmentCount }) {
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
@@ -26,9 +27,9 @@ function FacultyRight({ facultyList, departmentCount }) {
   const saveFaculty = async () => {
     setIsEditPopupOpen(false);
     try {
-      const response = await axios.post('BACKEND_URL/api/v1/teacher/add', selectedCard, {
+      const response = await axios.post(BACKEND_URL+'/api/v1/teacher/add', selectedCard, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('_token')}`
+          Authorization: `${localStorage.getItem('_token')}`
         }
       });
       console.log(response.data);

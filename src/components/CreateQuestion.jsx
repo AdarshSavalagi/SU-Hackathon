@@ -1,6 +1,7 @@
+import { title } from 'framer-motion/client';
 import React, { useState } from 'react';
 
-function CreateQuestion({ addQuestion }) {
+function CreateQuestion({ addQuestion,setTitle,title }) {
   const [questionText, setQuestionText] = useState('');
   const [type, setType] = useState('1');
   const [options, setOptions] = useState(['']);
@@ -66,6 +67,14 @@ function CreateQuestion({ addQuestion }) {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
+       <label className="block text-gray-700 mb-2">Exam title</label>
+ <input
+          type="text"
+          className="w-full p-2 border border-gray-300 rounded"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+
       <h2 className="text-2xl font-bold mb-4">Create a New Question</h2>
 
       <div className="mb-4">
